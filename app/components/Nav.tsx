@@ -1,37 +1,27 @@
 "use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import styles from "../styles/layout.module.css";
+import { ModeToggle } from "./theme/ModeToggle";
+import { useAppSelector } from "@/lib/hooks";
+import { selectUser } from "@/lib/features/auth/authSlice";
 
 export const Nav = () => {
-  const pathname = usePathname();
-
+  const user = useAppSelector(selectUser);
   return (
     <nav className={styles.nav}>
-      <Link
-        className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
-        href="/"
-      >
-        Home
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/verify" ? styles.active : ""
-        }`}
-        href="/verify"
-      >
-        Verify
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/quotes" ? styles.active : ""
-        }`}
-        href="/quotes"
-      >
-        Quotes
-      </Link>
+      {user?.id && user.name && (
+        <span
+          className="
+            text-sm
+            font-semibold
+            text-gray-800
+            dark:text-gray-200
+            ml-4
+          "
+        >
+          Welcome, {user.name}!
+        </span>
+      )}
+      <ModeToggle />
     </nav>
   );
 };
