@@ -10,6 +10,7 @@ export function setLocalUser(
   token: string | null,
   refreshToken: string | null
 ) {
+  if (typeof window === "undefined") return;
   localStorage.setItem("user", JSON.stringify(user));
   localStorage.setItem("tokenObj", JSON.stringify({ token, refreshToken }));
 }
@@ -21,6 +22,8 @@ export function getLocalUser(): {
     refreshToken: string | null;
   };
 } {
+  if (typeof window === "undefined")
+    return { user: null, tokenObj: { token: null, refreshToken: null } };
   const token = JSON.parse(localStorage.getItem("tokenObj") ?? "null");
   const user = JSON.parse(localStorage.getItem("user") ?? "null");
   return {
@@ -30,6 +33,7 @@ export function getLocalUser(): {
 }
 
 export function removeLocalUser() {
+  if (typeof window === "undefined") return;
   localStorage.removeItem("user");
   localStorage.removeItem("tokenObj");
 }
