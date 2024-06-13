@@ -1,12 +1,13 @@
+"use client";
+
 import type { Metadata } from "next";
-import { Counter } from "./components/counter/Counter";
 import { SignIn } from "./components/auth/SignIn";
+import { selectToken, selectUser } from "@/lib/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { TodoList } from "./components/todo/TodoList";
 
 export default function IndexPage() {
-  return <SignIn />;
-  // return <Counter />;
-}
+  const user = useAppSelector(selectUser);
 
-export const metadata: Metadata = {
-  title: "Redux Toolkit",
-};
+  return user && user.id ? <TodoList /> : <SignIn />;
+}
